@@ -11,7 +11,7 @@ import de.maxhenkel.voicechat.api.Group;
 import de.maxhenkel.voicechat.api.VoicechatConnection;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.AABB;
 
@@ -39,7 +39,7 @@ public class InstantGroupCommands {
         ServerPlayer player = commandSource.getSource().getPlayerOrException();
 
         if (InstantGroupVoicechatPlugin.SERVER_API == null) {
-            commandSource.getSource().sendFailure(new TextComponent("Voice chat not connected"));
+            commandSource.getSource().sendFailure(Component.literal("Voice chat not connected"));
             return 1;
         }
 
@@ -48,7 +48,7 @@ public class InstantGroupCommands {
         Group group;
 
         if (playerConnection == null) {
-            commandSource.getSource().sendFailure(new TextComponent("Voice chat not connected"));
+            commandSource.getSource().sendFailure(Component.literal("Voice chat not connected"));
             return 1;
         }
 
