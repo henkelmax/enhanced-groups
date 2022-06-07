@@ -4,7 +4,7 @@ import de.maxhenkel.configbuilder.ConfigBuilder;
 import de.maxhenkel.instantgroup.command.InstantGroupCommands;
 import de.maxhenkel.instantgroup.config.CommonConfig;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +20,6 @@ public class InstantGroup implements ModInitializer {
     @Override
     public void onInitialize() {
         CONFIG = ConfigBuilder.build(Paths.get(".", "config").resolve(MOD_ID).resolve("%s.properties".formatted(MOD_ID)), CommonConfig::new);
-        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> InstantGroupCommands.register(dispatcher));
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> InstantGroupCommands.register(dispatcher));
     }
 }
