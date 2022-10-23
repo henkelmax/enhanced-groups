@@ -22,10 +22,10 @@ public class InstantGroupCommands {
     public static final String INSTANTGROUP_COMMAND = "instantgroup";
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        LiteralArgumentBuilder<CommandSourceStack> literalBuilder = Commands.literal(INSTANTGROUP_COMMAND).requires(stack -> stack.hasPermission(EnhancedGroups.CONFIG.commandPermissionLevel.get()));
+        LiteralArgumentBuilder<CommandSourceStack> literalBuilder = Commands.literal(INSTANTGROUP_COMMAND).requires(stack -> stack.hasPermission(EnhancedGroups.CONFIG.instantGroupCommandPermissionLevel.get()));
 
         literalBuilder.executes(context -> {
-            return instantGroup(context, EnhancedGroups.CONFIG.defaultGroupRange.get());
+            return instantGroup(context, EnhancedGroups.CONFIG.defaultInstantGroupRange.get());
         });
 
         literalBuilder.then(Commands.argument("range", DoubleArgumentType.doubleArg(1D)).executes(context -> {

@@ -5,14 +5,14 @@ import de.maxhenkel.configbuilder.ConfigEntry;
 
 public class CommonConfig {
 
-    public final ConfigEntry<Double> defaultGroupRange;
+    public final ConfigEntry<Double> defaultInstantGroupRange;
     public final ConfigEntry<String> instantGroupName;
-    public final ConfigEntry<Integer> commandPermissionLevel;
+    public final ConfigEntry<Integer> instantGroupCommandPermissionLevel;
 
     public CommonConfig(ConfigBuilder builder) {
-        defaultGroupRange = builder.doubleEntry("default_group_range", 128D, 1D, Double.MAX_VALUE);
+        defaultInstantGroupRange = builder.doubleEntry("default_instant_group_range", 128D, 1D, Double.MAX_VALUE);
         instantGroupName = builder.stringEntry("instant_group_name", "Instant Group");
-        commandPermissionLevel = builder.integerEntry("command_permission_level", 0, 0, Integer.MAX_VALUE);
+        instantGroupCommandPermissionLevel = builder.integerEntry("instant_group_command_permission_level", 0, 0, Integer.MAX_VALUE);
     }
 
 }
