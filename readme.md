@@ -15,4 +15,3 @@ The config file is located at `config/enhancedgroups/enhancedgroups.properties`.
 | `default_instant_group_range`              | `128`           | The default range of the command                             |
 | `instant_group_name`                       | `Instant Group` | The name of the group that's created                         |
 | `instant_group_command_permission_level`   | `0`             | The permission level needed for the `instantgroup` command   |
-| `permanent_group_command_permission_level` | `0`             | The permission level needed for the `permanentgroup` command |
