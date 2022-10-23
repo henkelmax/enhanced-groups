@@ -1,12 +1,12 @@
-package de.maxhenkel.instantgroup.command;
+package de.maxhenkel.enhancedgroups.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import de.maxhenkel.instantgroup.InstantGroup;
-import de.maxhenkel.instantgroup.InstantGroupVoicechatPlugin;
+import de.maxhenkel.enhancedgroups.EnhancedGroups;
+import de.maxhenkel.enhancedgroups.EnhancedGroupsVoicechatPlugin;
 import de.maxhenkel.voicechat.api.Group;
 import de.maxhenkel.voicechat.api.VoicechatConnection;
 import net.minecraft.commands.CommandSourceStack;
@@ -22,10 +22,10 @@ public class InstantGroupCommands {
     public static final String INSTANTGROUP_COMMAND = "instantgroup";
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        LiteralArgumentBuilder<CommandSourceStack> literalBuilder = Commands.literal(INSTANTGROUP_COMMAND).requires(stack -> stack.hasPermission(InstantGroup.CONFIG.commandPermissionLevel.get()));
+        LiteralArgumentBuilder<CommandSourceStack> literalBuilder = Commands.literal(INSTANTGROUP_COMMAND).requires(stack -> stack.hasPermission(EnhancedGroups.CONFIG.commandPermissionLevel.get()));
 
         literalBuilder.executes(context -> {
-            return instantGroup(context, InstantGroup.CONFIG.defaultGroupRange.get());
+            return instantGroup(context, EnhancedGroups.CONFIG.defaultGroupRange.get());
         });
 
         literalBuilder.then(Commands.argument("range", DoubleArgumentType.doubleArg(1D)).executes(context -> {
@@ -38,12 +38,12 @@ public class InstantGroupCommands {
     public static int instantGroup(CommandContext<CommandSourceStack> commandSource, double radius) throws CommandSyntaxException {
         ServerPlayer player = commandSource.getSource().getPlayerOrException();
 
-        if (InstantGroupVoicechatPlugin.SERVER_API == null) {
+        if (EnhancedGroupsVoicechatPlugin.SERVER_API == null) {
             commandSource.getSource().sendFailure(Component.literal("Voice chat not connected"));
             return 1;
         }
 
-        VoicechatConnection playerConnection = InstantGroupVoicechatPlugin.SERVER_API.getConnectionOf(player.getUUID());
+        VoicechatConnection playerConnection = EnhancedGroupsVoicechatPlugin.SERVER_API.getConnectionOf(player.getUUID());
 
         Group group;
 
@@ -55,13 +55,13 @@ public class InstantGroupCommands {
         if (playerConnection.isInGroup()) {
             group = playerConnection.getGroup();
         } else {
-            group = InstantGroupVoicechatPlugin.SERVER_API.createGroup(InstantGroup.CONFIG.instantGroupName.get(), null);
+            group = EnhancedGroupsVoicechatPlugin.SERVER_API.createGroup(EnhancedGroups.CONFIG.instantGroupName.get(), null);
         }
 
         List<ServerPlayer> players = player.level.getEntitiesOfClass(ServerPlayer.class, new AABB(player.position().x - radius, player.position().y - radius, player.position().z - radius, player.position().x + radius, player.position().y + radius, player.position().z + radius));
 
         for (ServerPlayer p : players) {
-            VoicechatConnection connection = InstantGroupVoicechatPlugin.SERVER_API.getConnectionOf(p.getUUID());
+            VoicechatConnection connection = EnhancedGroupsVoicechatPlugin.SERVER_API.getConnectionOf(p.getUUID());
             if (connection == null) {
                 continue;
             }

@@ -1,4 +1,4 @@
-package de.maxhenkel.instantgroup;
+package de.maxhenkel.enhancedgroups;
 
 import de.maxhenkel.voicechat.api.VoicechatApi;
 import de.maxhenkel.voicechat.api.VoicechatPlugin;
@@ -8,14 +8,14 @@ import de.maxhenkel.voicechat.api.events.VoicechatServerStartedEvent;
 
 import javax.annotation.Nullable;
 
-public class InstantGroupVoicechatPlugin implements VoicechatPlugin {
+public class EnhancedGroupsVoicechatPlugin implements VoicechatPlugin {
 
     @Nullable
     public static VoicechatServerApi SERVER_API;
 
     @Override
     public String getPluginId() {
-        return InstantGroup.MOD_ID;
+        return EnhancedGroups.MOD_ID;
     }
 
     @Override

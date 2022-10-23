@@ -1,4 +1,4 @@
-# Simple Voice Chat Instant Groups
+# Simple Voice Chat Enhanced Groups
 
 This server side Fabric mod adds the command `/instantgroup`. This command automatically adds every player nearby to a
 group, if they are not already in a group. The default range of this is 128 blocks. Alternatively you can provide the

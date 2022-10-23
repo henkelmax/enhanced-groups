@@ -1,4 +1,4 @@
-package de.maxhenkel.instantgroup.config;
+package de.maxhenkel.enhancedgroups.config;
 
 import de.maxhenkel.configbuilder.ConfigBuilder;
 import de.maxhenkel.configbuilder.ConfigEntry;

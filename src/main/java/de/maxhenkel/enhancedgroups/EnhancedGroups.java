@@ -1,8 +1,8 @@
-package de.maxhenkel.instantgroup;
+package de.maxhenkel.enhancedgroups;
 
 import de.maxhenkel.configbuilder.ConfigBuilder;
-import de.maxhenkel.instantgroup.command.InstantGroupCommands;
-import de.maxhenkel.instantgroup.config.CommonConfig;
+import de.maxhenkel.enhancedgroups.command.InstantGroupCommands;
+import de.maxhenkel.enhancedgroups.config.CommonConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import org.slf4j.Logger;
@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.file.Paths;
 
-public class InstantGroup implements ModInitializer {
+public class EnhancedGroups implements ModInitializer {
 
-    public static final String MOD_ID = "instantgroup";
+    public static final String MOD_ID = "enhancedgroups";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static CommonConfig CONFIG;

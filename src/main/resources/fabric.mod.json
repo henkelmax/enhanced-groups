@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "instantgroup",
+  "id": "enhancedgroups",
   "version": "${version}",
-  "name": "Instant Group",
+  "name": "Simple Voice Chat Enhanced Groups",
   "description": "Instantly create and join groups",
   "authors": [
     "Max Henkel"
@@ -11,14 +11,14 @@
     "homepage": "https://modrepo.de/"
   },
   "license": "ARR",
-  "icon": "assets/instantgroup/icon.png",
+  "icon": "assets/enhancedgroups/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "de.maxhenkel.instantgroup.InstantGroup"
+      "de.maxhenkel.enhancedgroups.EnhancedGroups"
     ],
     "voicechat": [
-      "de.maxhenkel.instantgroup.InstantGroupVoicechatPlugin"
+      "de.maxhenkel.enhancedgroups.EnhancedGroupsVoicechatPlugin"
     ]
   },
   "depends": {
