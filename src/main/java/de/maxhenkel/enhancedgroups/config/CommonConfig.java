@@ -8,11 +8,21 @@ public class CommonConfig {
     public final ConfigEntry<Double> defaultInstantGroupRange;
     public final ConfigEntry<String> instantGroupName;
     public final ConfigEntry<Integer> instantGroupCommandPermissionLevel;
+    public final ConfigEntry<Boolean> groupSummary;
 
     public CommonConfig(ConfigBuilder builder) {
-        defaultInstantGroupRange = builder.doubleEntry("default_instant_group_range", 128D, 1D, Double.MAX_VALUE);
-        instantGroupName = builder.stringEntry("instant_group_name", "Instant Group");
-        instantGroupCommandPermissionLevel = builder.integerEntry("instant_group_command_permission_level", 0, 0, Integer.MAX_VALUE);
+        defaultInstantGroupRange = builder
+                .doubleEntry("default_instant_group_range", 128D, 1D, Double.MAX_VALUE)
+                .comment("The default range for the instant group command if no range was provided");
+        instantGroupName = builder
+                .stringEntry("instant_group_name", "Instant Group")
+                .comment("The name of the instant group");
+        instantGroupCommandPermissionLevel = builder
+                .integerEntry("instant_group_command_permission_level", 0, 0, Integer.MAX_VALUE)
+                .comment("The permission level of the instantgroup command");
+        groupSummary = builder
+                .booleanEntry("group_summary", true)
+                .comment("If a summary of all groups should be shown when a player joins the server");
     }
 
 }
