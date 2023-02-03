@@ -3,6 +3,7 @@ package de.maxhenkel.enhancedgroups;
 import de.maxhenkel.configbuilder.ConfigBuilder;
 import de.maxhenkel.enhancedgroups.command.InstantGroupCommands;
 import de.maxhenkel.enhancedgroups.config.CommonConfig;
+import de.maxhenkel.enhancedgroups.events.GroupSummaryEvents;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import org.slf4j.Logger;
@@ -19,7 +20,8 @@ public class EnhancedGroups implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        CONFIG = ConfigBuilder.build(Paths.get(".", "config").resolve(MOD_ID).resolve("%s.properties".formatted(MOD_ID)), CommonConfig::new);
+        CONFIG = ConfigBuilder.build(Paths.get(".", "config").resolve(MOD_ID).resolve("%s.properties".formatted(MOD_ID)), true, CommonConfig::new);
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> InstantGroupCommands.register(dispatcher));
+        GroupSummaryEvents.init();
     }
 }
