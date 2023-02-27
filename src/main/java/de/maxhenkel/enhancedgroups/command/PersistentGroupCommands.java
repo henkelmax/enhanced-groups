@@ -110,6 +110,12 @@ public class PersistentGroupCommands {
             if (group.getName().equals(name)) {
                 boolean removed = EnhancedGroupsVoicechatPlugin.SERVER_API.removeGroup(group.getId());
                 if (removed) {
+                    PersistentGroup cachedGroup = EnhancedGroups.PERSISTENT_GROUP_STORE.getCached(group.getId());
+                    if (cachedGroup == null) {
+                        commandSource.getSource().sendFailure(Component.literal("This group was not created by EnhancedGroups"));
+                        return 1;
+                    }
+                    EnhancedGroups.PERSISTENT_GROUP_STORE.removeGroup(cachedGroup);
                     commandSource.getSource().sendSuccess(Component.literal("Removed group " + name), false);
                 } else {
                     commandSource.getSource().sendFailure(Component.literal("Could not remove group " + name));
@@ -138,15 +144,14 @@ public class PersistentGroupCommands {
             return 1;
         }
 
-        PersistentGroup cachedGroup = EnhancedGroups.PERSISTENT_GROUP_STORE.getCached(group.getId());
-        if (cachedGroup == null) {
-            commandSource.getSource().sendFailure(Component.literal("This group was not created by EnhancedGroups"));
-            return 1;
-        }
-
-        EnhancedGroups.PERSISTENT_GROUP_STORE.removeGroup(cachedGroup);
         boolean removed = EnhancedGroupsVoicechatPlugin.SERVER_API.removeGroup(id);
         if (removed) {
+            PersistentGroup cachedGroup = EnhancedGroups.PERSISTENT_GROUP_STORE.getCached(group.getId());
+            if (cachedGroup == null) {
+                commandSource.getSource().sendFailure(Component.literal("This group was not created by EnhancedGroups"));
+                return 1;
+            }
+            EnhancedGroups.PERSISTENT_GROUP_STORE.removeGroup(cachedGroup);
             commandSource.getSource().sendSuccess(Component.literal("Removed group " + group.getName()), false);
         } else {
             commandSource.getSource().sendFailure(Component.literal("Could not remove group " + group.getName()));
