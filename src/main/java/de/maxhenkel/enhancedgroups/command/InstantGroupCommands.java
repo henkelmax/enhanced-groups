@@ -55,7 +55,7 @@ public class InstantGroupCommands {
         if (playerConnection.isInGroup()) {
             group = playerConnection.getGroup();
         } else {
-            group = EnhancedGroupsVoicechatPlugin.SERVER_API.createGroup(EnhancedGroups.CONFIG.instantGroupName.get(), null);
+            group = EnhancedGroupsVoicechatPlugin.SERVER_API.groupBuilder().setName(EnhancedGroups.CONFIG.instantGroupName.get()).setType(Group.Type.OPEN).build();
         }
 
         List<ServerPlayer> players = player.level.getEntitiesOfClass(ServerPlayer.class, new AABB(player.position().x - radius, player.position().y - radius, player.position().z - radius, player.position().x + radius, player.position().y + radius, player.position().z + radius));

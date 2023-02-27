@@ -17,13 +17,29 @@ Alternatively you can provide the range as the first argument of the command: `/
 
 Players that join the server will get a quick summary of all active voice chat groups.
 
+### Persistent Groups
+
+The command `/persistentgroup` creates a group that will not be deleted when all players leave it or the server
+restarts.
+
+**Usage**:
+
+`/persistentgroup list` - Lists all persistent groups
+
+`/persistentgroup remove <name>` - Deletes the group with the given name
+
+`/persistentgroup remove <id>` - Deletes the group with the given ID
+
+`/persistentgroup add <name> [<normal|open|isolated>] [<password>]` - Creates a persistent group
+
 ## Config Options
 
 The config file is located at `config/enhancedgroups/enhancedgroups.properties`.
 
-| Name                                     | Default Value          | Description                                                               |
-|------------------------------------------|------------------------|---------------------------------------------------------------------------|
-| `default_instant_group_range`            | `128`                  | The default range for the instant group command if no range was provided  |
-| `instant_group_name`                     | `Instant Group`        | The name of the instant group                                             |
-| `instant_group_command_permission_level` | `0`                    | The permission level of the `instantgroup` command                        |
-| `group_summary`                          | `true`                 | If a summary of all groups should be shown when a player joins the server |
+| Name                                        | Default Value   | Description                                                               |
+|---------------------------------------------|-----------------|---------------------------------------------------------------------------|
+| `default_instant_group_range`               | `128`           | The default range for the instant group command if no range was provided  |
+| `instant_group_name`                        | `Instant Group` | The name of the instant group                                             |
+| `instant_group_command_permission_level`    | `0`             | The permission level of the `instantgroup` command                        |
+| `persistent_group_command_permission_level` | `0`             | The permission level of the `persistentgroup` command                     |
+| `group_summary`                             | `true`          | If a summary of all groups should be shown when a player joins the server |

@@ -1,5 +1,7 @@
 package de.maxhenkel.enhancedgroups;
 
+import de.maxhenkel.enhancedgroups.config.PersistentGroup;
+import de.maxhenkel.voicechat.api.Group;
 import de.maxhenkel.voicechat.api.VoicechatApi;
 import de.maxhenkel.voicechat.api.VoicechatPlugin;
 import de.maxhenkel.voicechat.api.VoicechatServerApi;
@@ -7,6 +9,7 @@ import de.maxhenkel.voicechat.api.events.EventRegistration;
 import de.maxhenkel.voicechat.api.events.VoicechatServerStartedEvent;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class EnhancedGroupsVoicechatPlugin implements VoicechatPlugin {
 
@@ -25,7 +28,24 @@ public class EnhancedGroupsVoicechatPlugin implements VoicechatPlugin {
 
     @Override
     public void registerEvents(EventRegistration registration) {
-        registration.registerEvent(VoicechatServerStartedEvent.class, evt -> SERVER_API = evt.getVoicechat());
+        registration.registerEvent(VoicechatServerStartedEvent.class, this::onServerStarted);
+    }
+
+    private void onServerStarted(VoicechatServerStartedEvent event) {
+        SERVER_API = event.getVoicechat();
+
+        List<PersistentGroup> groups = EnhancedGroups.PERSISTENT_GROUP_STORE.getGroups();
+        for (PersistentGroup group : groups) {
+            Group vcGroup = SERVER_API.groupBuilder()
+                    .setPersistent(true)
+                    .setName(group.getName())
+                    .setPassword(group.getPassword())
+                    .setType(group.getType().getType())
+                    .build();
+            EnhancedGroups.PERSISTENT_GROUP_STORE.addCached(vcGroup.getId(), group);
+        }
+
+        EnhancedGroups.LOGGER.info("Added {} persistent groups", groups.size());
     }
 
 }

@@ -8,6 +8,7 @@ public class CommonConfig {
     public final ConfigEntry<Double> defaultInstantGroupRange;
     public final ConfigEntry<String> instantGroupName;
     public final ConfigEntry<Integer> instantGroupCommandPermissionLevel;
+    public final ConfigEntry<Integer> persistentGroupCommandPermissionLevel;
     public final ConfigEntry<Boolean> groupSummary;
 
     public CommonConfig(ConfigBuilder builder) {
@@ -20,6 +21,9 @@ public class CommonConfig {
         instantGroupCommandPermissionLevel = builder
                 .integerEntry("instant_group_command_permission_level", 0, 0, Integer.MAX_VALUE)
                 .comment("The permission level of the instantgroup command");
+        persistentGroupCommandPermissionLevel = builder
+                .integerEntry("persistent_group_command_permission_level", 0, 0, Integer.MAX_VALUE)
+                .comment("The permission level of the persistentgroup command");
         groupSummary = builder
                 .booleanEntry("group_summary", true)
                 .comment("If a summary of all groups should be shown when a player joins the server");
