@@ -1,7 +1,21 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.maxhenkel.de/repository/public' }
+        mavenLocal()
+    }
+    dependencies {
+        classpath group: 'de.maxhenkel.forge-update', name: 'forge-update', version: '1.0.4'
+    }
+}
+
 plugins {
     id 'fabric-loom' version '1.0-SNAPSHOT'
     id "com.github.johnrengelman.shadow" version "7.1.0"
+    id 'com.modrinth.minotaur' version '2.+'
+    id "com.matthewprenger.cursegradle" version "1.4.0"
 }
+
+apply plugin: 'forge-update'
 
 sourceCompatibility = JavaLanguageVersion.of(java_version as int)
 targetCompatibility = JavaLanguageVersion.of(java_version as int)
@@ -96,4 +110,72 @@ prepareRemapJar {
 
 remapJar {
     inputFile = shadowJar.archiveFile.get()
+}
+
+curseforge {
+    apiKey = file('curseforge_api_key.txt').exists() ? file('curseforge_api_key.txt').text : ''
+    project {
+        id = curse_id
+        changelogType = 'markdown'
+        changelog = file('changelog.md')
+        releaseType = release_type
+        addGameVersion curseforge_minecraft_version
+        addGameVersion "Fabric"
+        addGameVersion "Java 17"
+        mainArtifact(file("${project.buildDir}/libs/${archivesBaseName}-${version}.jar")) {
+            displayName = "[FABRIC][${minecraft_version}] ${mod_name} ${mod_version}"
+            relations {
+                requiredDependency 'simple-voice-chat'
+            }
+        }
+        afterEvaluate {
+            uploadTask.dependsOn(remapJar)
+        }
+    }
+    options {
+        forgeGradleIntegration = false
+    }
+}
+
+tasks.modrinth.configure({
+    group = 'upload'
+})
+tasks.modrinthSyncBody.configure({
+    group = 'upload'
+})
+
+modrinth {
+    token = file("${rootDir}/modrinth_token.txt").exists() ? file("${rootDir}/modrinth_token.txt").text : ''
+    projectId = modrinth_id
+    versionNumber = "fabric-${mod_version}"
+    versionName = "[FABRIC][${minecraft_version}] ${mod_name} ${mod_version}"
+    uploadFile = remapJar
+    versionType = release_type.toUpperCase()
+    changelog = file("changelog.md").text
+    gameVersions = [minecraft_version]
+    loaders = ['fabric']
+    dependencies {
+        required.project "9eGKb6K1" // Simple Voice Chat
+    }
+    syncBodyFrom = file("readme.md").text
+}
+tasks.modrinth.dependsOn(remapJar)
+
+forgeUpdate {
+    def messages = []
+    file('changelog.md').eachLine { String line ->
+        if (line.trim().startsWith('-')) {
+            messages.add(line.replaceFirst('-', '').trim())
+        }
+    }
+
+    serverURL = 'https://update.maxhenkel.de/'
+    apiKey = file('forge_update_api_key.txt').exists() ? file('forge_update_api_key.txt').text : ''
+    modID = mod_id
+    gameVersion = minecraft_version
+    modLoader = "fabric"
+    modVersion = mod_version
+    updateMessages = messages
+    releaseType = release_type
+    tags = recommended == 'true' ? ['recommended'] : []
 }
