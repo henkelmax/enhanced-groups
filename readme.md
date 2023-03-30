@@ -28,7 +28,7 @@ restarts.
 
 `/persistentgroup remove <name>` - Deletes the group with the given name
 
-`/persistentgroup remove <id>` - Deletes the group with the given ID
+`/persistentgroup remove <id>` - Deletes the group with the given ID (For internal use only)
 
 `/persistentgroup add <name> [<normal|open|isolated>] [<password>]` - Creates a persistent group
 
