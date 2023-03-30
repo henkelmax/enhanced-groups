@@ -3,7 +3,7 @@ package de.maxhenkel.enhancedgroups.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import de.maxhenkel.voicechat.Voicechat;
+import de.maxhenkel.enhancedgroups.EnhancedGroups;
 
 import javax.annotation.Nullable;
 import java.io.*;
@@ -34,7 +34,7 @@ public class PersistentGroupStore {
             }.getType();
             groups = gson.fromJson(reader, groupListType);
         } catch (Exception e) {
-            Voicechat.LOGGER.error("Failed to load persistent groups", e);
+            EnhancedGroups.LOGGER.error("Failed to load persistent groups", e);
         }
         if (groups == null) {
             groups = new ArrayList<>();
@@ -46,7 +46,7 @@ public class PersistentGroupStore {
         try (Writer writer = new FileWriter(file)) {
             gson.toJson(groups, writer);
         } catch (Exception e) {
-            Voicechat.LOGGER.error("Failed to save username cache", e);
+            EnhancedGroups.LOGGER.error("Failed to save username cache", e);
         }
     }
 
