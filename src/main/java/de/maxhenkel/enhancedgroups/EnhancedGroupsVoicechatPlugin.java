@@ -2,10 +2,12 @@ package de.maxhenkel.enhancedgroups;
 
 import de.maxhenkel.enhancedgroups.config.PersistentGroup;
 import de.maxhenkel.enhancedgroups.events.AutoJoinGroupEvents;
+import de.maxhenkel.enhancedgroups.events.ForceGroupTypeEvents;
 import de.maxhenkel.voicechat.api.Group;
 import de.maxhenkel.voicechat.api.VoicechatApi;
 import de.maxhenkel.voicechat.api.VoicechatPlugin;
 import de.maxhenkel.voicechat.api.VoicechatServerApi;
+import de.maxhenkel.voicechat.api.events.CreateGroupEvent;
 import de.maxhenkel.voicechat.api.events.EventRegistration;
 import de.maxhenkel.voicechat.api.events.PlayerConnectedEvent;
 import de.maxhenkel.voicechat.api.events.VoicechatServerStartedEvent;
@@ -32,6 +34,7 @@ public class EnhancedGroupsVoicechatPlugin implements VoicechatPlugin {
     public void registerEvents(EventRegistration registration) {
         registration.registerEvent(VoicechatServerStartedEvent.class, this::onServerStarted);
         registration.registerEvent(PlayerConnectedEvent.class, AutoJoinGroupEvents::onPlayerConnected);
+        registration.registerEvent(CreateGroupEvent.class, ForceGroupTypeEvents::onCreateGroup);
     }
 
     private void onServerStarted(VoicechatServerStartedEvent event) {

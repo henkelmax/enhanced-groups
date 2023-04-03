@@ -36,7 +36,7 @@ restarts.
 
 Players can be automatically added to a group when they join the server.
 
-**Note:** This feature is only available for persistent groups.
+**Note**: This feature is only available for persistent groups.
 
 **Usage**:
 
@@ -45,6 +45,19 @@ Players can be automatically added to a group when they join the server.
 `/autojoingroup set <id> [password]` - Sets your auto join group (For internal use only)
 
 `/autojoingroup remove` - Removes your auto join group
+
+### Forced Group Types
+
+If `force_group_type` is enabled in the config, players won't be able to create groups with a different type.
+All created groups will be of the type specified in the config.
+This will be useful for servers that used the global `open_groups` config option in older versions of Simple Voice Chat.
+
+**Note**: Forced group types will only be applied to groups that are created with the GUI in Simple Voice Chat.
+It does not apply to any of the commands provided by this mod.
+If you don't want regular players to be able to use these commands,
+you can set the permission levels in the config to a higher value.
+
+Possible config values are `OFF`, `NORMAL`, `OPEN` and `ISOLATED`.
 
 ## Config Options
 
@@ -58,3 +71,4 @@ The config file is located at `config/enhancedgroups/enhancedgroups.properties`.
 | `persistent_group_command_permission_level` | `0`             | The permission level of the `persistentgroup` command                     |
 | `auto_join_group_command_permission_level`  | `0`             | The permission level of the `autojoingroup` command                       |
 | `group_summary`                             | `true`          | If a summary of all groups should be shown when a player joins the server |
+| `force_group_type`                          | `OFF`           | If the group type should be forced to a specific type.                    |

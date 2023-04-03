@@ -11,6 +11,7 @@ public class CommonConfig {
     public final ConfigEntry<Integer> persistentGroupCommandPermissionLevel;
     public final ConfigEntry<Integer> autoJoinGroupCommandPermissionLevel;
     public final ConfigEntry<Boolean> groupSummary;
+    public final ConfigEntry<ForcedGroupType> forceGroupType;
 
     public CommonConfig(ConfigBuilder builder) {
         defaultInstantGroupRange = builder
@@ -31,6 +32,15 @@ public class CommonConfig {
         groupSummary = builder
                 .booleanEntry("group_summary", true)
                 .comment("If a summary of all groups should be shown when a player joins the server");
+        forceGroupType = builder
+                .enumEntry("force_group_type", ForcedGroupType.OFF)
+                .comment(
+                        "If the group type should be forced to a specific type",
+                        "OFF - No group type is forced",
+                        "NORMAL - All groups are forced to be normal groups",
+                        "OPEN - All groups are forced to be open groups",
+                        "ISOLATED - All groups are forced to be isolated groups"
+                );
     }
 
 }
