@@ -1,1 +1,1 @@
-- Added auto joining groups
+- Added forced group types
