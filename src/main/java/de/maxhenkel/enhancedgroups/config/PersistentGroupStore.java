@@ -39,6 +39,10 @@ public class PersistentGroupStore {
         if (groups == null) {
             groups = new ArrayList<>();
         }
+        for (PersistentGroup group : groups) {
+            group.getId(); // This generates IDs for all groups that don't have one
+        }
+        save();
     }
 
     public void save() {
@@ -46,7 +50,7 @@ public class PersistentGroupStore {
         try (Writer writer = new FileWriter(file)) {
             gson.toJson(groups, writer);
         } catch (Exception e) {
-            EnhancedGroups.LOGGER.error("Failed to save username cache", e);
+            EnhancedGroups.LOGGER.error("Failed to save persistent groups", e);
         }
     }
 
@@ -57,6 +61,21 @@ public class PersistentGroupStore {
 
     public void addCached(UUID uuid, PersistentGroup group) {
         groupCache.put(uuid, group);
+    }
+
+    @Nullable
+    public PersistentGroup getGroup(String name) {
+        return groups.stream().filter(g -> g.getName().trim().equals(name.trim())).findFirst().orElse(null);
+    }
+
+    @Nullable
+    public PersistentGroup getGroup(UUID id) {
+        return groups.stream().filter(g -> g.getId().equals(id)).findFirst().orElse(null);
+    }
+
+    @Nullable
+    public UUID getVoicechatId(UUID persistentGroupId) {
+        return groupCache.entrySet().stream().filter(e -> e.getValue().getId().equals(persistentGroupId)).findFirst().map(Map.Entry::getKey).orElse(null);
     }
 
     public List<PersistentGroup> getGroups() {

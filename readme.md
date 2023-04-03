@@ -32,6 +32,20 @@ restarts.
 
 `/persistentgroup add <name> [<normal|open|isolated>] [<password>]` - Creates a persistent group
 
+### Auto Joining Groups
+
+Players can be automatically added to a group when they join the server.
+
+**Note:** This feature is only available for persistent groups.
+
+**Usage**
+
+`/autojoingroup set <group-name> [password]` - Sets your auto join group
+
+`/autojoingroup set <id> [password]` - Sets your auto join group (For internal use only)
+
+`/autojoingroup remove` - Removes your auto join group
+
 ## Config Options
 
 The config file is located at `config/enhancedgroups/enhancedgroups.properties`.
@@ -42,4 +56,5 @@ The config file is located at `config/enhancedgroups/enhancedgroups.properties`.
 | `instant_group_name`                        | `Instant Group` | The name of the instant group                                             |
 | `instant_group_command_permission_level`    | `0`             | The permission level of the `instantgroup` command                        |
 | `persistent_group_command_permission_level` | `0`             | The permission level of the `persistentgroup` command                     |
+| `auto_join_group_command_permission_level`  | `0`             | The permission level of the `autojoingroup` command                       |
 | `group_summary`                             | `true`          | If a summary of all groups should be shown when a player joins the server |

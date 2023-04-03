@@ -1,1 +1,1 @@
-- Added persistent groups
+- Added auto joining groups

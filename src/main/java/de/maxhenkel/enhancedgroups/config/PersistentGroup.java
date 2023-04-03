@@ -3,6 +3,8 @@ package de.maxhenkel.enhancedgroups.config;
 import de.maxhenkel.voicechat.api.Group;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
+import java.util.UUID;
 
 public class PersistentGroup {
 
@@ -10,11 +12,18 @@ public class PersistentGroup {
     @Nullable
     private final String password;
     private final Type type;
+    @Nullable
+    private UUID id;
 
-    public PersistentGroup(String name, @Nullable String password, Type type) {
+    public PersistentGroup(String name, @Nullable String password, Type type, @Nullable UUID id) {
         this.name = name;
         this.password = password;
         this.type = type;
+        this.id = Objects.requireNonNullElseGet(id, UUID::randomUUID);
+    }
+
+    public PersistentGroup(String name, @Nullable String password, Type type) {
+        this(name, password, type, null);
     }
 
     public String getName() {
@@ -28,6 +37,13 @@ public class PersistentGroup {
 
     public Type getType() {
         return type;
+    }
+
+    public UUID getId() {
+        if (id == null) {
+            id = UUID.randomUUID();
+        }
+        return id;
     }
 
     public static enum Type {
