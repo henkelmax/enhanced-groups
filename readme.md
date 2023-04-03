@@ -38,7 +38,7 @@ Players can be automatically added to a group when they join the server.
 
 **Note:** This feature is only available for persistent groups.
 
-**Usage**
+**Usage**:
 
 `/autojoingroup set <group-name> [password]` - Sets your auto join group
 
