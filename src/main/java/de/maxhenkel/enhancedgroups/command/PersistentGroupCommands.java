@@ -102,7 +102,7 @@ public class PersistentGroupCommands {
         EnhancedGroups.PERSISTENT_GROUP_STORE.addGroup(persistentGroup);
         EnhancedGroups.PERSISTENT_GROUP_STORE.addCached(vcGroup.getId(), persistentGroup);
 
-        commandSource.getSource().sendSuccess(Component.literal("Successfully created persistent group " + name), false);
+        commandSource.getSource().sendSuccess(() -> Component.literal("Successfully created persistent group " + name), false);
 
         return 1;
     }
@@ -130,7 +130,7 @@ public class PersistentGroupCommands {
         boolean removed = EnhancedGroupsVoicechatPlugin.SERVER_API.removeGroup(voicechatId);
         if (removed) {
             EnhancedGroups.PERSISTENT_GROUP_STORE.removeGroup(persistentGroup);
-            commandSource.getSource().sendSuccess(Component.literal("Removed group %s".formatted(group.getName())), false);
+            commandSource.getSource().sendSuccess(() -> Component.literal("Removed group %s".formatted(group.getName())), false);
             return 1;
         } else {
             commandSource.getSource().sendFailure(Component.literal("Could not remove group %s".formatted(group.getName())));
@@ -147,11 +147,11 @@ public class PersistentGroupCommands {
         List<PersistentGroup> groups = EnhancedGroups.PERSISTENT_GROUP_STORE.getGroups();
 
         if (groups.isEmpty()) {
-            commandSource.getSource().sendSuccess(Component.literal("There are no persistent groups"), false);
+            commandSource.getSource().sendSuccess(() -> Component.literal("There are no persistent groups"), false);
         }
 
         for (PersistentGroup group : EnhancedGroups.PERSISTENT_GROUP_STORE.getGroups()) {
-            commandSource.getSource().sendSuccess(Component.literal(group.getName())
+            commandSource.getSource().sendSuccess(() -> Component.literal(group.getName())
                             .append(" ")
                             .append(ComponentUtils.wrapInSquareBrackets(Component.literal("Remove")).withStyle(style -> {
                                 return style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + PERSISTENTGROUP_COMMAND + " remove " + group.getId()))

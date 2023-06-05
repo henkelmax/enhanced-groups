@@ -1,1 +1,1 @@
-- Added forced group types
+- Updated to 1.20

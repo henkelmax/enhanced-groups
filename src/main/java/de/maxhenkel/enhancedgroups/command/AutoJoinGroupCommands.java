@@ -53,7 +53,7 @@ public class AutoJoinGroupCommands {
         literalBuilder.then(Commands.literal("remove").executes(context -> {
             ServerPlayer player = context.getSource().getPlayerOrException();
             EnhancedGroups.AUTO_JOIN_GROUP_STORE.removePlayerGroup(player.getUUID());
-            context.getSource().sendSuccess(Component.literal("Auto join successfully removed"), false);
+            context.getSource().sendSuccess(() -> Component.literal("Auto join successfully removed"), false);
             return 1;
         }));
 
@@ -76,7 +76,7 @@ public class AutoJoinGroupCommands {
         }
 
         EnhancedGroups.AUTO_JOIN_GROUP_STORE.setPlayerGroup(player.getUUID(), group.getId());
-        context.getSource().sendSuccess(Component.literal("You will now automatically connect to group '%s' when joining".formatted(group.getName())), false);
+        context.getSource().sendSuccess(() -> Component.literal("You will now automatically connect to group '%s' when joining".formatted(group.getName())), false);
         return 1;
     }
 
