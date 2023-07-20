@@ -2,6 +2,7 @@ package de.maxhenkel.enhancedgroups;
 
 import de.maxhenkel.configbuilder.ConfigBuilder;
 import de.maxhenkel.enhancedgroups.command.AutoJoinGroupCommands;
+import de.maxhenkel.enhancedgroups.command.ForceJoinCommands;
 import de.maxhenkel.enhancedgroups.command.InstantGroupCommands;
 import de.maxhenkel.enhancedgroups.command.PersistentGroupCommands;
 import de.maxhenkel.enhancedgroups.config.AutoJoinGroupStore;
@@ -35,6 +36,7 @@ public class EnhancedGroups implements ModInitializer {
             InstantGroupCommands.register(dispatcher);
             PersistentGroupCommands.register(dispatcher);
             AutoJoinGroupCommands.register(dispatcher);
+            ForceJoinCommands.register(dispatcher);
         });
         GroupSummaryEvents.init();
     }
