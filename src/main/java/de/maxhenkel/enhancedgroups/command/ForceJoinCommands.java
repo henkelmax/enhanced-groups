@@ -50,7 +50,7 @@ public class ForceJoinCommands {
 
             playerConnection.setGroup(group);
 
-            context.getSource().sendSuccess(() -> Component.literal("Player successfully joined your group"), false);
+            context.getSource().sendSuccess(Component.literal("Player successfully joined your group"), false);
 
             return 1;
         }));
