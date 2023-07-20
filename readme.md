@@ -46,6 +46,14 @@ Players can be automatically added to a group when they join the server.
 
 `/autojoingroup remove` - Removes your auto join group
 
+### Force Joining Groups
+
+Players can be forced to join a group.
+
+**Usage**:
+
+`/forcejoingroup <player>` - Forces the player to join your group
+
 ### Forced Group Types
 
 If `force_group_type` is enabled in the config, players won't be able to create groups with a different type.
@@ -70,5 +78,6 @@ The config file is located at `config/enhancedgroups/enhancedgroups.properties`.
 | `instant_group_command_permission_level`    | `0`             | The permission level of the `instantgroup` command                        |
 | `persistent_group_command_permission_level` | `0`             | The permission level of the `persistentgroup` command                     |
 | `auto_join_group_command_permission_level`  | `0`             | The permission level of the `autojoingroup` command                       |
+| `force_join_group_command_permission_level` | `2`             | The permission level of the `forcejoingroup` command                      |
 | `group_summary`                             | `true`          | If a summary of all groups should be shown when a player joins the server |
 | `force_group_type`                          | `OFF`           | If the group type should be forced to a specific type.                    |

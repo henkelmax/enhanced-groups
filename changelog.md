@@ -1,1 +1,1 @@
-- Added forced group types
+- Added force join group command
