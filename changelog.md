@@ -1,1 +1,1 @@
-- Added force join group command
+- Updated to 1.20.2
