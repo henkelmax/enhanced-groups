@@ -25,6 +25,6 @@
     "fabricloader": ">=${loader_version}",
     "minecraft": "${minecraft_dependency}",
     "java": ">=${java_version}",
-    "voicechat": ">=${voicechat_api_version}"
+    "voicechat": ">=${minecraft_dependency}-${voicechat_api_version}"
   }
 }
