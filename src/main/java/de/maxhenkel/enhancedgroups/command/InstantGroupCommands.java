@@ -45,7 +45,7 @@ public class InstantGroupCommands {
             group = EnhancedGroupsVoicechatPlugin.SERVER_API.groupBuilder().setName(EnhancedGroups.CONFIG.instantGroupName.get()).setType(Group.Type.OPEN).build();
         }
         double range = optionalRange.orElse(EnhancedGroups.CONFIG.defaultInstantGroupRange.get());
-        List<ServerPlayer> players = player.level().getEntitiesOfClass(ServerPlayer.class, new AABB(player.position().x - range, player.position().y - range, player.position().z - range, player.position().x + range, player.position().y + range, player.position().z + range));
+        List<ServerPlayer> players = player.getLevel().getEntitiesOfClass(ServerPlayer.class, new AABB(player.position().x - range, player.position().y - range, player.position().z - range, player.position().x + range, player.position().y + range, player.position().z + range));
 
         for (ServerPlayer p : players) {
             VoicechatConnection connection = EnhancedGroupsVoicechatPlugin.SERVER_API.getConnectionOf(p.getUUID());
