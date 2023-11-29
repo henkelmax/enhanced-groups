@@ -2,15 +2,16 @@ package de.maxhenkel.enhancedgroups.config;
 
 import de.maxhenkel.configbuilder.ConfigBuilder;
 import de.maxhenkel.configbuilder.ConfigEntry;
+import de.maxhenkel.enhancedgroups.EnhancedGroupPermissionManager;
 
 public class CommonConfig {
 
     public final ConfigEntry<Double> defaultInstantGroupRange;
     public final ConfigEntry<String> instantGroupName;
-    public final ConfigEntry<Integer> instantGroupCommandPermissionLevel;
-    public final ConfigEntry<Integer> persistentGroupCommandPermissionLevel;
-    public final ConfigEntry<Integer> autoJoinGroupCommandPermissionLevel;
-    public final ConfigEntry<Integer> forceJoinGroupCommandPermissionLevel;
+    public final ConfigEntry<EnhancedGroupPermissionManager.PermissionType> instantGroupCommandPermissionType;
+    public final ConfigEntry<EnhancedGroupPermissionManager.PermissionType> persistentGroupCommandPermissionType;
+    public final ConfigEntry<EnhancedGroupPermissionManager.PermissionType> autoJoinGroupCommandPermissionType;
+    public final ConfigEntry<EnhancedGroupPermissionManager.PermissionType> forceJoinGroupCommandPermissionType;
     public final ConfigEntry<Boolean> groupSummary;
     public final ConfigEntry<ForcedGroupType> forceGroupType;
 
@@ -21,18 +22,18 @@ public class CommonConfig {
         instantGroupName = builder
                 .stringEntry("instant_group_name", "Instant Group")
                 .comment("The name of the instant group");
-        instantGroupCommandPermissionLevel = builder
-                .integerEntry("instant_group_command_permission_level", 0, 0, Integer.MAX_VALUE)
-                .comment("The permission level of the instantgroup command");
-        persistentGroupCommandPermissionLevel = builder
-                .integerEntry("persistent_group_command_permission_level", 0, 0, Integer.MAX_VALUE)
-                .comment("The permission level of the persistentgroup command");
-        autoJoinGroupCommandPermissionLevel = builder
-                .integerEntry("auto_join_group_command_permission_level", 0, 0, Integer.MAX_VALUE)
-                .comment("The permission level of the autojoingroup command");
-        forceJoinGroupCommandPermissionLevel = builder
-                .integerEntry("force_join_group_command_permission_level", 2, 0, Integer.MAX_VALUE)
-                .comment("The permission level of the forcejoingroup command");
+        instantGroupCommandPermissionType = builder
+                .enumEntry("instant_group_command_permission_level", EnhancedGroupPermissionManager.PermissionType.EVERYONE)
+                .comment("The default permission type of the instantgroup command");
+        persistentGroupCommandPermissionType = builder
+                .enumEntry("persistent_group_command_permission_level", EnhancedGroupPermissionManager.PermissionType.OPS)
+                .comment("The default permission type of the persistentgroup command");
+        autoJoinGroupCommandPermissionType = builder
+                .enumEntry("auto_join_group_command_permission_type", EnhancedGroupPermissionManager.PermissionType.EVERYONE)
+                .comment("The default permission type of the autojoingroup command");
+        forceJoinGroupCommandPermissionType = builder
+                .enumEntry("force_join_group_command_permission_type", EnhancedGroupPermissionManager.PermissionType.OPS)
+                .comment("The default permission type of the forcejoingroup command");
         groupSummary = builder
                 .booleanEntry("group_summary", true)
                 .comment("If a summary of all groups should be shown when a player joins the server");

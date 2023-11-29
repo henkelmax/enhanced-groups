@@ -1,1 +1,3 @@
-- Updated to 1.20.2
+- Added support for the fabric-permissions-api
+- Added command permission handling
+- Used admiral for command processing
