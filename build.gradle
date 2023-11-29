@@ -78,7 +78,7 @@ processResources {
                 'minecraft_dependency': minecraft_dependency,
                 'loader_version': loader_version,
                 'fabric_version': fabric_version,
-                'voicechat_dependency': voicechat_dependency
+                'voicechat_api_version': voicechat_api_version
     }
 }
 
