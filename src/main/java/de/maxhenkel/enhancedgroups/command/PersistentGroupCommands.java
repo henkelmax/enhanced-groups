@@ -1,19 +1,17 @@
 package de.maxhenkel.enhancedgroups.command;
 
-import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import de.maxhenkel.admiral.annotations.Command;
+import de.maxhenkel.admiral.annotations.Name;
+import de.maxhenkel.admiral.annotations.OptionalArgument;
+import de.maxhenkel.admiral.annotations.RequiresPermission;
 import de.maxhenkel.enhancedgroups.EnhancedGroups;
 import de.maxhenkel.enhancedgroups.EnhancedGroupsVoicechatPlugin;
 import de.maxhenkel.enhancedgroups.config.PersistentGroup;
 import de.maxhenkel.voicechat.api.Group;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.UuidArgument;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
@@ -21,71 +19,41 @@ import net.minecraft.network.chat.HoverEvent;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+@RequiresPermission("enhancedgroups.persistentgroup")
+@Command(PersistentGroupCommands.PERSISTENTGROUP_COMMAND)
 public class PersistentGroupCommands {
 
     public static final String PERSISTENTGROUP_COMMAND = "persistentgroup";
 
-    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        LiteralArgumentBuilder<CommandSourceStack> literalBuilder = Commands.literal(PERSISTENTGROUP_COMMAND).requires(stack -> stack.hasPermission(EnhancedGroups.CONFIG.persistentGroupCommandPermissionLevel.get()));
+    @Command("add")
+    public int add(CommandContext<CommandSourceStack> context, @Name("name") String name, @Name("type") Optional<Group.Type> groupType, @OptionalArgument @Name("password") String password) {
+        if (name.isBlank()) {
+            context.getSource().sendFailure(Component.literal("Name cannot be blank"));
+            return 1;
+        }
 
-        RequiredArgumentBuilder<CommandSourceStack, String> nameArg = Commands.argument("name", StringArgumentType.string());
+        if (EnhancedGroupsVoicechatPlugin.SERVER_API == null) {
+            context.getSource().sendFailure(Component.literal("Voice chat not connected"));
+            return 1;
+        }
 
-        nameArg.executes(context -> {
-            return addPersistentGroup(context, StringArgumentType.getString(context, "name"), null, Group.Type.NORMAL);
-        });
+        Group.Type type = groupType.orElse(Group.Type.NORMAL);
 
-        nameArg.then(Commands.argument("password", StringArgumentType.string()).executes(context -> {
-            return addPersistentGroup(context, StringArgumentType.getString(context, "name"), StringArgumentType.getString(context, "password"), Group.Type.NORMAL);
-        }));
+        Group vcGroup = EnhancedGroupsVoicechatPlugin.SERVER_API.groupBuilder().setPersistent(true).setName(name).setPassword(password).setType(type).build();
 
-        nameArg.then(Commands.literal("normal").then(Commands.argument("password", StringArgumentType.string()).executes(context -> {
-            return addPersistentGroup(context, StringArgumentType.getString(context, "name"), StringArgumentType.getString(context, "password"), Group.Type.NORMAL);
-        })));
-        nameArg.then(Commands.literal("open").then(Commands.argument("password", StringArgumentType.string()).executes(context -> {
-            return addPersistentGroup(context, StringArgumentType.getString(context, "name"), StringArgumentType.getString(context, "password"), Group.Type.OPEN);
-        })));
-        nameArg.then(Commands.literal("isolated").then(Commands.argument("password", StringArgumentType.string()).executes(context -> {
-            return addPersistentGroup(context, StringArgumentType.getString(context, "name"), StringArgumentType.getString(context, "password"), Group.Type.ISOLATED);
-        })));
+        PersistentGroup persistentGroup = new PersistentGroup(name, password, PersistentGroup.Type.fromGroupType(type));
+        EnhancedGroups.PERSISTENT_GROUP_STORE.addGroup(persistentGroup);
+        EnhancedGroups.PERSISTENT_GROUP_STORE.addCached(vcGroup.getId(), persistentGroup);
 
-        nameArg.then(Commands.literal("normal").executes(context -> {
-            return addPersistentGroup(context, StringArgumentType.getString(context, "name"), null, Group.Type.NORMAL);
-        }));
-        nameArg.then(Commands.literal("open").executes(context -> {
-            return addPersistentGroup(context, StringArgumentType.getString(context, "name"), null, Group.Type.OPEN);
-        }));
-        nameArg.then(Commands.literal("isolated").executes(context -> {
-            return addPersistentGroup(context, StringArgumentType.getString(context, "name"), null, Group.Type.ISOLATED);
-        }));
+        context.getSource().sendSuccess(Component.literal("Successfully created persistent group " + name), false);
 
-        literalBuilder.then(Commands.literal("add").then(nameArg));
-
-        literalBuilder.then(Commands.literal("remove").then(Commands.argument("id", UuidArgument.uuid()).executes(context -> {
-            UUID id = UuidArgument.getUuid(context, "id");
-            PersistentGroup group = EnhancedGroups.PERSISTENT_GROUP_STORE.getGroup(id);
-            if (group == null) {
-                context.getSource().sendFailure(Component.literal("Group not found or not persistent"));
-                return 0;
-            }
-            return removePersistentGroup(context, group);
-        })).then(Commands.argument("name", StringArgumentType.string()).executes(context -> {
-            String name = StringArgumentType.getString(context, "name");
-            PersistentGroup group = EnhancedGroups.PERSISTENT_GROUP_STORE.getGroup(name);
-            if (group == null) {
-                context.getSource().sendFailure(Component.literal("Group not found or not persistent"));
-                return 0;
-            }
-            return removePersistentGroup(context, group);
-        })));
-
-        literalBuilder.then(Commands.literal("list").executes(PersistentGroupCommands::listPersistentGroups));
-
-        dispatcher.register(literalBuilder);
+        return 1;
     }
 
-    public static int addPersistentGroup(CommandContext<CommandSourceStack> commandSource, String name, @Nullable String password, Group.Type type) throws CommandSyntaxException {
+    public static int addPersistentGroup(CommandContext<CommandSourceStack> commandSource, String name, @Nullable String password, Group.Type type) {
         if (name.isBlank()) {
             commandSource.getSource().sendFailure(Component.literal("Name cannot be blank"));
             return 1;
@@ -107,7 +75,28 @@ public class PersistentGroupCommands {
         return 1;
     }
 
-    public static int removePersistentGroup(CommandContext<CommandSourceStack> commandSource, PersistentGroup persistentGroup) throws CommandSyntaxException {
+    @Command("remove")
+    public int remove(CommandContext<CommandSourceStack> context, @Name("name") String name) {
+        PersistentGroup group = EnhancedGroups.PERSISTENT_GROUP_STORE.getGroup(name);
+        if (group == null) {
+            context.getSource().sendFailure(Component.literal("Group not found or not persistent"));
+            return 0;
+        }
+        return removePersistentGroup(context, group);
+    }
+
+    // This method always needs to be after the String group name one, so it has priority to be processed properly
+    @Command("remove")
+    public int remove(CommandContext<CommandSourceStack> context, @Name("id") UUID id) {
+        PersistentGroup group = EnhancedGroups.PERSISTENT_GROUP_STORE.getGroup(id);
+        if (group == null) {
+            context.getSource().sendFailure(Component.literal("Group not found or not persistent"));
+            return 0;
+        }
+        return removePersistentGroup(context, group);
+    }
+
+    public static int removePersistentGroup(CommandContext<CommandSourceStack> commandSource, PersistentGroup persistentGroup) {
         if (EnhancedGroupsVoicechatPlugin.SERVER_API == null) {
             commandSource.getSource().sendFailure(Component.literal("Voice chat not connected"));
             return 0;
@@ -138,20 +127,21 @@ public class PersistentGroupCommands {
         }
     }
 
-    public static int listPersistentGroups(CommandContext<CommandSourceStack> commandSource) throws CommandSyntaxException {
+    @Command("list")
+    public int list(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         if (EnhancedGroupsVoicechatPlugin.SERVER_API == null) {
-            commandSource.getSource().sendFailure(Component.literal("Voice chat not connected"));
+            context.getSource().sendFailure(Component.literal("Voice chat not connected"));
             return 1;
         }
 
         List<PersistentGroup> groups = EnhancedGroups.PERSISTENT_GROUP_STORE.getGroups();
 
         if (groups.isEmpty()) {
-            commandSource.getSource().sendSuccess(Component.literal("There are no persistent groups"), false);
+            context.getSource().sendSuccess(Component.literal("There are no persistent groups"), false);
         }
 
         for (PersistentGroup group : EnhancedGroups.PERSISTENT_GROUP_STORE.getGroups()) {
-            commandSource.getSource().sendSuccess(Component.literal(group.getName())
+            context.getSource().sendSuccess(Component.literal(group.getName())
                             .append(" ")
                             .append(ComponentUtils.wrapInSquareBrackets(Component.literal("Remove")).withStyle(style -> {
                                 return style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + PERSISTENTGROUP_COMMAND + " remove " + group.getId()))
