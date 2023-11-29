@@ -1,1 +1,3 @@
-- Added force join group command
+- Added support for the fabric-permissions-api
+- Added command permission handling
+- Used admiral for command processing
