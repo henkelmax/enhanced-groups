@@ -1,46 +1,33 @@
 package de.maxhenkel.enhancedgroups.command;
 
-import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.DoubleArgumentType;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import de.maxhenkel.admiral.annotations.*;
 import de.maxhenkel.enhancedgroups.EnhancedGroups;
 import de.maxhenkel.enhancedgroups.EnhancedGroupsVoicechatPlugin;
 import de.maxhenkel.voicechat.api.Group;
 import de.maxhenkel.voicechat.api.VoicechatConnection;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.AABB;
 
 import java.util.List;
+import java.util.Optional;
 
+@RequiresPermission("enhancedgroups.instantgroup")
+@Command(InstantGroupCommands.INSTANTGROUP_COMMAND)
 public class InstantGroupCommands {
 
     public static final String INSTANTGROUP_COMMAND = "instantgroup";
 
-    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        LiteralArgumentBuilder<CommandSourceStack> literalBuilder = Commands.literal(INSTANTGROUP_COMMAND).requires(stack -> stack.hasPermission(EnhancedGroups.CONFIG.instantGroupCommandPermissionLevel.get()));
-
-        literalBuilder.executes(context -> {
-            return instantGroup(context, EnhancedGroups.CONFIG.defaultInstantGroupRange.get());
-        });
-
-        literalBuilder.then(Commands.argument("range", DoubleArgumentType.doubleArg(1D)).executes(context -> {
-            return instantGroup(context, DoubleArgumentType.getDouble(context, "range"));
-        }));
-
-        dispatcher.register(literalBuilder);
-    }
-
-    public static int instantGroup(CommandContext<CommandSourceStack> commandSource, double radius) throws CommandSyntaxException {
-        ServerPlayer player = commandSource.getSource().getPlayerOrException();
+    @Command
+    public int instantGroup(CommandContext<CommandSourceStack> context, @Name("range") @Min("1") Optional<Double> optionalRange) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
 
         if (EnhancedGroupsVoicechatPlugin.SERVER_API == null) {
-            commandSource.getSource().sendFailure(Component.literal("Voice chat not connected"));
-            return 1;
+            context.getSource().sendFailure(Component.literal("Voice chat not connected"));
+            return 0;
         }
 
         VoicechatConnection playerConnection = EnhancedGroupsVoicechatPlugin.SERVER_API.getConnectionOf(player.getUUID());
@@ -48,8 +35,8 @@ public class InstantGroupCommands {
         Group group;
 
         if (playerConnection == null) {
-            commandSource.getSource().sendFailure(Component.literal("Voice chat not connected"));
-            return 1;
+            context.getSource().sendFailure(Component.literal("Voice chat not connected"));
+            return 0;
         }
 
         if (playerConnection.isInGroup()) {
@@ -57,8 +44,8 @@ public class InstantGroupCommands {
         } else {
             group = EnhancedGroupsVoicechatPlugin.SERVER_API.groupBuilder().setName(EnhancedGroups.CONFIG.instantGroupName.get()).setType(Group.Type.OPEN).build();
         }
-
-        List<ServerPlayer> players = player.level.getEntitiesOfClass(ServerPlayer.class, new AABB(player.position().x - radius, player.position().y - radius, player.position().z - radius, player.position().x + radius, player.position().y + radius, player.position().z + radius));
+        double range = optionalRange.orElse(EnhancedGroups.CONFIG.defaultInstantGroupRange.get());
+        List<ServerPlayer> players = player.level().getEntitiesOfClass(ServerPlayer.class, new AABB(player.position().x - range, player.position().y - range, player.position().z - range, player.position().x + range, player.position().y + range, player.position().z + range));
 
         for (ServerPlayer p : players) {
             VoicechatConnection connection = EnhancedGroupsVoicechatPlugin.SERVER_API.getConnectionOf(p.getUUID());
