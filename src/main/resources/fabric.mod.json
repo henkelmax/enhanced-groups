@@ -11,7 +11,7 @@
     "homepage": "https://modrepo.de/"
   },
   "license": "ARR",
-  "icon": "assets/enhancedgroups/icon.png",
+  "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
