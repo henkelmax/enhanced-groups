@@ -30,7 +30,7 @@ public class EnhancedGroups implements ModInitializer {
     @Override
     public void onInitialize() {
         Path configFolder = Paths.get(".", "config").resolve(MOD_ID);
-        CONFIG = ConfigBuilder.build(configFolder.resolve("%s.properties".formatted(MOD_ID)), true, CommonConfig::new);
+        CONFIG = ConfigBuilder.builder(CommonConfig::new).path(configFolder.resolve("%s.properties".formatted(MOD_ID))).build();
         PERSISTENT_GROUP_STORE = new PersistentGroupStore(configFolder.resolve("persistent-groups.json").toFile());
         AUTO_JOIN_GROUP_STORE = new AutoJoinGroupStore(configFolder.resolve("auto-join-groups.json").toFile());
         PERMISSION_MANAGER = new EnhancedGroupPermissionManager();
