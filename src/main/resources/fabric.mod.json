@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "enhancedgroups",
-  "version": "${version}",
+  "version": "${mod_version}",
   "name": "Simple Voice Chat Enhanced Groups",
   "description": "Instantly create and join groups",
   "authors": [
@@ -22,9 +22,11 @@
     ]
   },
   "depends": {
-    "fabricloader": ">=${loader_version}",
+    "fabricloader": "${fabric_loader_dependency}",
     "minecraft": "${minecraft_dependency}",
-    "java": ">=${java_version}",
-    "voicechat": ">=${minecraft_dependency}-${voicechat_api_version}"
+    "voicechat": ">=${minecraft_version}-${voicechat_api_version}"
+  },
+  "breaks": {
+    "fabric-api": "${fabric_api_dependency_breaks}"
   }
 }
