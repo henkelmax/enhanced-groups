@@ -1,1 +1,1 @@
-- Updated dependencies
+- Fixed issues with permissions
