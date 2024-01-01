@@ -43,7 +43,7 @@ public class EnhancedGroupPermissionManager implements PermissionManager<Command
                 return p.hasPermission(stack.getPlayer());
             }
             if (p.getType().equals(PermissionType.OPS)) {
-                return stack.hasPermission(stack.getServer().getFunctionCompilationLevel());
+                return stack.hasPermission(2);
             } else {
                 return p.hasPermission(null);
             }
