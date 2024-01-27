@@ -47,6 +47,7 @@ public class EnhancedGroupsVoicechatPlugin implements VoicechatPlugin {
                     .setName(group.getName())
                     .setPassword(group.getPassword())
                     .setType(group.getType().getType())
+                    .setHidden(group.isHidden())
                     .build();
             EnhancedGroups.PERSISTENT_GROUP_STORE.addCached(vcGroup.getId(), group);
         }
