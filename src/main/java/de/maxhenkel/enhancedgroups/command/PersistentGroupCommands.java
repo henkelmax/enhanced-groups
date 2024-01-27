@@ -17,7 +17,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.HoverEvent;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,7 +28,7 @@ public class PersistentGroupCommands {
     public static final String PERSISTENTGROUP_COMMAND = "persistentgroup";
 
     @Command("add")
-    public int add(CommandContext<CommandSourceStack> context, @Name("name") String name, @Name("type") Optional<Group.Type> groupType, @OptionalArgument @Name("password") String password) {
+    public int add(CommandContext<CommandSourceStack> context, @Name("name") String name, @Name("type") Optional<Group.Type> groupType, @Name("hidden") Optional<Boolean> hidden, @OptionalArgument @Name("password") String password) {
         if (name.isBlank()) {
             context.getSource().sendFailure(Component.literal("Name cannot be blank"));
             return 1;
@@ -42,35 +41,13 @@ public class PersistentGroupCommands {
 
         Group.Type type = groupType.orElse(Group.Type.NORMAL);
 
-        Group vcGroup = EnhancedGroupsVoicechatPlugin.SERVER_API.groupBuilder().setPersistent(true).setName(name).setPassword(password).setType(type).build();
+        Group vcGroup = EnhancedGroupsVoicechatPlugin.SERVER_API.groupBuilder().setPersistent(true).setName(name).setPassword(password).setType(type).setHidden(hidden.orElse(false)).build();
 
-        PersistentGroup persistentGroup = new PersistentGroup(name, password, PersistentGroup.Type.fromGroupType(type));
+        PersistentGroup persistentGroup = new PersistentGroup(name, password, PersistentGroup.Type.fromGroupType(type), hidden.orElse(false));
         EnhancedGroups.PERSISTENT_GROUP_STORE.addGroup(persistentGroup);
         EnhancedGroups.PERSISTENT_GROUP_STORE.addCached(vcGroup.getId(), persistentGroup);
 
         context.getSource().sendSuccess(Component.literal("Successfully created persistent group " + name), false);
-
-        return 1;
-    }
-
-    public static int addPersistentGroup(CommandContext<CommandSourceStack> commandSource, String name, @Nullable String password, Group.Type type) {
-        if (name.isBlank()) {
-            commandSource.getSource().sendFailure(Component.literal("Name cannot be blank"));
-            return 1;
-        }
-
-        if (EnhancedGroupsVoicechatPlugin.SERVER_API == null) {
-            commandSource.getSource().sendFailure(Component.literal("Voice chat not connected"));
-            return 1;
-        }
-
-        Group vcGroup = EnhancedGroupsVoicechatPlugin.SERVER_API.groupBuilder().setPersistent(true).setName(name).setPassword(password).setType(type).build();
-
-        PersistentGroup persistentGroup = new PersistentGroup(name, password, PersistentGroup.Type.fromGroupType(type));
-        EnhancedGroups.PERSISTENT_GROUP_STORE.addGroup(persistentGroup);
-        EnhancedGroups.PERSISTENT_GROUP_STORE.addCached(vcGroup.getId(), persistentGroup);
-
-        commandSource.getSource().sendSuccess(Component.literal("Successfully created persistent group " + name), false);
 
         return 1;
     }
