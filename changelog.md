@@ -1,1 +1,1 @@
-- Fixed issues with permissions
+- Added hidden group option to persistent group command
