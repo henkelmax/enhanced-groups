@@ -27,7 +27,7 @@
       "1.21",
       "1.21.1"
     ],
-    "voicechat": ">=${minecraft_version}-${voicechat_api_version}"
+    "voicechat": ">=1.21-2.5.0"
   },
   "breaks": {
     "fabric-api": "${fabric_api_dependency_breaks}"
