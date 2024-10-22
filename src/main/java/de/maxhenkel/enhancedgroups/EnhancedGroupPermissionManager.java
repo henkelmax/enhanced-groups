@@ -83,8 +83,7 @@ public class EnhancedGroupPermissionManager implements PermissionManager<Command
             if (player == null) {
                 return false;
             }
-            //TODO Update fabric-permissions-api-v0
-            TriState permissionValue = TriState.DEFAULT; //Permissions.getPermissionValue(player, permission);
+            TriState permissionValue = Permissions.getPermissionValue(player, permission);
             switch (permissionValue) {
                 case DEFAULT:
                     return type.hasPermission(player);
