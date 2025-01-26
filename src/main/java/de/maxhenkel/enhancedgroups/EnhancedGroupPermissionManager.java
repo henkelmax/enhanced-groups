@@ -13,6 +13,7 @@ import java.util.List;
 public class EnhancedGroupPermissionManager implements PermissionManager<CommandSourceStack> {
 
     private final Permission AUTO_JOIN_GROUP_PERMISSION;
+    private final Permission AUTO_JOIN_GROUP_GLOBAL_PERMISSION;
     private final Permission FORCE_JOIN_GROUP_PERMISSION;
     private final Permission INSTANT_GROUP_PERMISSION;
     private final Permission PERSISTENT_GROUP_PERMISSION;
@@ -21,12 +22,14 @@ public class EnhancedGroupPermissionManager implements PermissionManager<Command
 
     public EnhancedGroupPermissionManager() {
         AUTO_JOIN_GROUP_PERMISSION = new Permission("enhancedgroups.autojoingroup", EnhancedGroups.CONFIG.autoJoinGroupCommandPermissionType.get());
+        AUTO_JOIN_GROUP_GLOBAL_PERMISSION = new Permission("enhancedgroups.autojoingroup.global", EnhancedGroups.CONFIG.autoJoinGroupGlobalCommandPermissionType.get());
         FORCE_JOIN_GROUP_PERMISSION = new Permission("enhancedgroups.forcejoingroup", EnhancedGroups.CONFIG.forceJoinGroupCommandPermissionType.get());
         INSTANT_GROUP_PERMISSION = new Permission("enhancedgroups.instantgroup", EnhancedGroups.CONFIG.instantGroupCommandPermissionType.get());
         PERSISTENT_GROUP_PERMISSION = new Permission("enhancedgroups.persistentgroup", EnhancedGroups.CONFIG.persistentGroupCommandPermissionType.get());
 
         PERMISSIONS = List.of(
                 AUTO_JOIN_GROUP_PERMISSION,
+                AUTO_JOIN_GROUP_GLOBAL_PERMISSION,
                 FORCE_JOIN_GROUP_PERMISSION,
                 INSTANT_GROUP_PERMISSION,
                 PERSISTENT_GROUP_PERMISSION
@@ -84,15 +87,11 @@ public class EnhancedGroupPermissionManager implements PermissionManager<Command
                 return false;
             }
             TriState permissionValue = Permissions.getPermissionValue(player, permission);
-            switch (permissionValue) {
-                case DEFAULT:
-                    return type.hasPermission(player);
-                case TRUE:
-                    return true;
-                case FALSE:
-                default:
-                    return false;
-            }
+            return switch (permissionValue) {
+                case DEFAULT -> type.hasPermission(player);
+                case TRUE -> true;
+                default -> false;
+            };
         }
 
         public PermissionType getType() {
@@ -100,7 +99,7 @@ public class EnhancedGroupPermissionManager implements PermissionManager<Command
         }
     }
 
-    public static enum PermissionType {
+    public enum PermissionType {
 
         EVERYONE, NOONE, OPS;
 
