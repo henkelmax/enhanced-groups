@@ -19,7 +19,7 @@ public class PersistentGroupStore {
 
     public PersistentGroupStore(File file) {
         this.file = file;
-        this.gson = new GsonBuilder().create();
+        this.gson = new GsonBuilder().setPrettyPrinting().create();
         this.groups = new ArrayList<>();
         this.groupCache = new HashMap<>();
         load();
@@ -27,6 +27,7 @@ public class PersistentGroupStore {
 
     public void load() {
         if (!file.exists()) {
+            EnhancedGroups.LOGGER.error("Failed to load persistent groups");
             return;
         }
         try (Reader reader = new FileReader(file)) {
@@ -34,11 +35,12 @@ public class PersistentGroupStore {
             }.getType();
             groups = gson.fromJson(reader, groupListType);
         } catch (Exception e) {
-            EnhancedGroups.LOGGER.error("Failed to load persistent groups", e);
+            EnhancedGroups.LOGGER.error("Failed to parse persistent groups", e);
         }
         if (groups == null) {
             groups = new ArrayList<>();
         }
+
         for (PersistentGroup group : groups) {
             group.getId(); // This generates IDs for all groups that don't have one
         }
