@@ -1,1 +1,2 @@
-- Updated to 1.21.1
+- Added global auto join group option
+- Improved config comments
