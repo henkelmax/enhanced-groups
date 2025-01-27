@@ -1,2 +1,3 @@
 - Added global auto join group option
 - Improved config comments
+- Fixed error when auto joining groups in single player

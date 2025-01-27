@@ -10,6 +10,7 @@ import de.maxhenkel.enhancedgroups.events.GroupSummaryEvents;
 import de.maxhenkel.voicechat.api.Group;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,5 +48,8 @@ public class EnhancedGroups implements ModInitializer {
                 .addArgumentTypes(argumentTypeRegistry -> argumentTypeRegistry.register(Group.Type.class, new GroupTypeArgumentSupplier(), new GroupTypeArgumentTypeSupplier()))
                 .build());
         GroupSummaryEvents.init();
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+            PERSISTENT_GROUP_STORE.clearCache();
+        });
     }
 }
