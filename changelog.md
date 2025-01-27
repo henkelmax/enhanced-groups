@@ -1,1 +1,2 @@
-- Added hidden group option to persistent group command
+- Added global auto join group option
+- Improved config comments
