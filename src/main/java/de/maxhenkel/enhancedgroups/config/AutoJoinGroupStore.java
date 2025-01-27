@@ -2,10 +2,12 @@ package de.maxhenkel.enhancedgroups.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import de.maxhenkel.enhancedgroups.EnhancedGroups;
 
 import javax.annotation.Nullable;
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -26,13 +28,34 @@ public class AutoJoinGroupStore {
             EnhancedGroups.LOGGER.error("Failed to load auto join groups");
             return;
         }
+
+        migrate(file);
         try (Reader reader = new FileReader(file)) {
-            content = gson.fromJson(reader, StoreContent.class);
+
+            Type contentType = new TypeToken<StoreContent>() {
+            }.getType();
+            content = gson.fromJson(reader, contentType);
         } catch (Exception e) {
             EnhancedGroups.LOGGER.error("Failed to parse auto join groups", e);
         }
         if (content == null) {
             content = new StoreContent();
+        }
+    }
+
+    private void migrate(File file) {
+        try (Reader reader = new FileReader(file)) {
+            Type playerGroupsType = new TypeToken<Map<UUID, UUID>>() {
+            }.getType();
+            Map<UUID, UUID> playerGroups = gson.fromJson(reader, playerGroupsType);
+
+            EnhancedGroups.LOGGER.info("Migrated config");
+
+            content = new StoreContent();
+            content.playerGroups = playerGroups;
+            save();
+        } catch (Exception e) {
+            // No migration needed (GSON failed to parse old format)
         }
     }
 

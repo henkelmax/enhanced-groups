@@ -46,10 +46,6 @@ public class AutoJoinGroupCommands {
     }
 
     public static int autoJoin(CommandContext<CommandSourceStack> context, UUID groupId, @Nullable String password) throws CommandSyntaxException {
-        if (EnhancedGroups.AUTO_JOIN_GROUP_STORE.getGlobalGroupForced()) {
-            context.getSource().sendFailure(Component.literal("Global auto join is enforced on this server"));
-            return 0;
-        }
 
         ServerPlayer player = context.getSource().getPlayerOrException();
 
@@ -66,6 +62,9 @@ public class AutoJoinGroupCommands {
 
         EnhancedGroups.AUTO_JOIN_GROUP_STORE.setPlayerGroup(player.getUUID(), group.getId());
         context.getSource().sendSuccess(() -> Component.literal("You will now automatically connect to group '%s' when joining".formatted(group.getName())), false);
+        if (EnhancedGroups.AUTO_JOIN_GROUP_STORE.getGlobalGroupForced()) {
+            context.getSource().sendSystemMessage(Component.literal("Note: Global auto join is currently enforced, meaning that your custom auto join won't have any effect"));
+        }
         return 1;
     }
 }

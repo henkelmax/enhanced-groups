@@ -11,17 +11,19 @@ public class AutoJoinGroupEvents {
 
     public static void onPlayerConnected(PlayerConnectedEvent event) {
         VoicechatConnection connection = event.getConnection();
+        UUID playerId = connection.getPlayer().getUuid();
 
-        UUID playerGroupId = EnhancedGroups.AUTO_JOIN_GROUP_STORE.getPlayerGroup(connection.getPlayer().getUuid());
         UUID globalGroupId = EnhancedGroups.AUTO_JOIN_GROUP_STORE.getGlobalGroup();
         boolean globalGroupForced = EnhancedGroups.AUTO_JOIN_GROUP_STORE.getGlobalGroupForced();
         UUID selectedGroupId;
 
-        if (!globalGroupForced && playerGroupId != null) {
-            selectedGroupId = playerGroupId;
-        } else if (globalGroupId != null) {
+        if (globalGroupForced) {
             selectedGroupId = globalGroupId;
         } else {
+            UUID playerGroupId = EnhancedGroups.AUTO_JOIN_GROUP_STORE.getPlayerGroup(playerId);
+            selectedGroupId = (playerGroupId != null) ? playerGroupId : globalGroupId;
+        }
+        if (selectedGroupId == null) {
             return;
         }
 
@@ -31,7 +33,6 @@ public class AutoJoinGroupEvents {
         if (group == null) {
             return;
         }
-
         connection.setGroup(group);
     }
 }
