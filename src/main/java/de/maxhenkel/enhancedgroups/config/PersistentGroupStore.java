@@ -15,7 +15,7 @@ public class PersistentGroupStore {
     private final File file;
     private final Gson gson;
     private List<PersistentGroup> groups;
-    private Map<UUID, PersistentGroup> groupCache;
+    private final Map<UUID, PersistentGroup> groupCache;
 
     public PersistentGroupStore(File file) {
         this.file = file;
@@ -63,6 +63,10 @@ public class PersistentGroupStore {
 
     public void addCached(UUID uuid, PersistentGroup group) {
         groupCache.put(uuid, group);
+    }
+
+    public void clearCache() {
+        groupCache.clear();
     }
 
     @Nullable
