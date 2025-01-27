@@ -35,18 +35,17 @@ public class EnhancedGroups implements ModInitializer {
         AUTO_JOIN_GROUP_STORE = new AutoJoinGroupStore(configFolder.resolve("auto-join-groups.json").toFile());
         PERMISSION_MANAGER = new EnhancedGroupPermissionManager();
 
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            MinecraftAdmiral.builder(dispatcher, registryAccess)
-                    .addCommandClasses(
-                            AutoJoinGroupCommands.class,
-                            ForceJoinCommands.class,
-                            InstantGroupCommands.class,
-                            PersistentGroupCommands.class
-                    )
-                    .setPermissionManager(PERMISSION_MANAGER)
-                    .addArgumentTypes(argumentTypeRegistry -> argumentTypeRegistry.register(Group.Type.class, new GroupTypeArgumentSupplier(), new GroupTypeArgumentTypeSupplier()))
-                    .build();
-        });
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> MinecraftAdmiral.builder(dispatcher, registryAccess)
+                .addCommandClasses(
+                        AutoJoinGroupCommands.class,
+                        AutoJoinGroupGlobalCommands.class,
+                        ForceJoinCommands.class,
+                        InstantGroupCommands.class,
+                        PersistentGroupCommands.class
+                )
+                .setPermissionManager(PERMISSION_MANAGER)
+                .addArgumentTypes(argumentTypeRegistry -> argumentTypeRegistry.register(Group.Type.class, new GroupTypeArgumentSupplier(), new GroupTypeArgumentTypeSupplier()))
+                .build());
         GroupSummaryEvents.init();
     }
 }
