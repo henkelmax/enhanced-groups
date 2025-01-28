@@ -71,16 +71,17 @@ Possible config values are `OFF`, `NORMAL`, `OPEN` and `ISOLATED`.
 
 The config file is located at `config/enhancedgroups/enhancedgroups.properties`.
 
-| Name                                       | Default Value   | Description                                                               |
-|--------------------------------------------|-----------------|---------------------------------------------------------------------------|
-| `default_instant_group_range`              | `128`           | The default range for the instant group command if no range was provided  |
-| `instant_group_name`                       | `Instant Group` | The name of the instant group                                             |
-| `instant_group_command_permission_type`    | `EVERYONE`      | The default permission type of the `instantgroup` command                 |
-| `persistent_group_command_permission_type` | `OPS`           | The default permission type of the `persistentgroup` command              |
-| `auto_join_group_command_permission_type`  | `EVERYONE`      | The default permission type of the `autojoingroup` command                |
-| `force_join_group_command_permission_type` | `OPS`           | The default permission type of the `forcejoingroup` command               |
-| `group_summary`                            | `true`          | If a summary of all groups should be shown when a player joins the server |
-| `force_group_type`                         | `OFF`           | If the group type should be forced to a specific type                     |
+| Name                                             | Default Value   | Description                                                                                                                                                                                                            |
+|--------------------------------------------------|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `default_instant_group_range`                    | `128`           | The default range for the `/instantgroup` command if no range was provided                                                                                                                                             |
+| `instant_group_name`                             | `Instant Group` | The name of the instant group                                                                                                                                                                                          |
+| `instant_group_command_permission_type`          | `EVERYONE`      | The default permission level of the `/instantgroup` command <br> `EVERYONE` - Every player can use this command <br> `OPS` - Operators can use this command <br> `NOONE` - The command can't be used by anyone         |
+| `persistent_group_command_permission_type`       | `OPS`           | The default permission level of the `/persistentgroup` command <br> `EVERYONE` - Every player can use this command <br> `OPS` - Operators can use this command <br> `NOONE` - The command can't be used by anyone      |
+| `auto_join_group_command_permission_type`        | `EVERYONE`      | The default permission level of the `/autojoingroup` command <br> `EVERYONE` - Every player can use this command <br> `OPS` - Operators can use this command <br> `NOONE` - The command can't be used by anyone        |
+| `auto_join_group_global_command_permission_type` | `OPS`           | The default permission level of the `/autojoingroup global` command <br> `EVERYONE` - Every player can use this command <br> `OPS` - Operators can use this command <br> `NOONE` - The command can't be used by anyone |
+| `force_join_group_command_permission_type`       | `OPS`           | The default permission level of the `/forcejoingroup` command <br> `EVERYONE` - Every player can use this command <br> `OPS` - Operators can use this command <br> `NOONE` - The command can't be used by anyone       |
+| `group_summary`                                  | `true`          | If a summary of all groups should be shown when a player joins the server                                                                                                                                              |
+| `force_group_type`                               | `OFF`           | If the group type should be forced to a specific type <br> `OFF` - No forced group type <br> `NORMAL` - Forced group type: Normal <br> `OPEN` - Forced group type: Open <br> `ISOLATED` - Forced group type: Isolated  |
 
 ## Permissions
 
@@ -88,9 +89,10 @@ This mod supports the [fabric-permissions-api](https://github.com/lucko/fabric-p
 
 The default permission type of each node is defined in the [config](#config-options).
 
-| Permission Node                  | Description                                                               |
-|----------------------------------|---------------------------------------------------------------------------|
-| `enhancedgroups.instantgroup`    | The permission node to be able to execute the `/instantgroup` commands    |
-| `enhancedgroups.persistentgroup` | The permission node to be able to execute the `/persistentgroup` commands |
-| `enhancedgroups.autojoingroup`   | The permission node to be able to execute the `/autojoingroup` commands   |
-| `enhancedgroups.forcejoingroup`  | The permission node to be able to execute the `/forcejoingroup` commands  |
+| Permission Node                       | Description                                                                    |
+|---------------------------------------|--------------------------------------------------------------------------------|
+| `enhancedgroups.instantgroup`         | The permission node to be able to execute the `/instantgroup` commands         |
+| `enhancedgroups.persistentgroup`      | The permission node to be able to execute the `/persistentgroup` commands      |
+| `enhancedgroups.autojoingroup`        | The permission node to be able to execute the `/autojoingroup` commands        |
+| `enhancedgroups.autojoingroup.global` | The permission node to be able to execute the `/autojoingroup global` commands |
+| `enhancedgroups.forcejoingroup`       | The permission node to be able to execute the `/forcejoingroup` commands       |
