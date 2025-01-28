@@ -46,6 +46,22 @@ Players can be automatically added to a group when they join the server.
 
 `/autojoingroup remove` - Removes your auto join group
 
+### Global Auto Join Group
+
+Players can be automatically added to the same group when they join the server.
+
+**Note**: This feature is only available for persistent groups.
+
+**Usage**:
+
+`/autojoingroup global set <group-name> [password]` - Sets the global auto join group
+
+`/autojoingroup global set <id> [password]` - Sets the global auto join group (For internal use only)
+
+`/autojoingroup global remove` - Removes the global auto join group
+
+`/autojoingroup global force <true|false>` - Forces global auto join. If disabled the players auto join group takes priority
+
 ### Force Joining Groups
 
 Players can be forced to join a group.
