@@ -121,20 +121,20 @@ public class PersistentGroupCommands {
             context.getSource().sendSuccess(() -> Component.literal(group.getName())
                             .append(" ")
                             .append(ComponentUtils.wrapInSquareBrackets(Component.literal("Remove")).withStyle(style -> {
-                                return style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + PERSISTENTGROUP_COMMAND + " remove " + group.getId()))
-                                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal("Click to remove group")))
+                                return style.withClickEvent(new ClickEvent.RunCommand("/" + PERSISTENTGROUP_COMMAND + " remove " + group.getId()))
+                                        .withHoverEvent(new HoverEvent.ShowText(Component.literal("Click to remove group")))
                                         .applyFormat(ChatFormatting.GREEN);
                             }))
                             .append(" ")
                             .append(ComponentUtils.wrapInSquareBrackets(Component.literal("Auto Join")).withStyle(style -> {
-                                return style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + AutoJoinGroupCommands.AUTOJOINGROUP_COMMAND + " set " + group.getId()))
-                                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal("Click to automatically connect to the group when joining")))
+                                return style.withClickEvent(new ClickEvent.RunCommand("/" + AutoJoinGroupCommands.AUTOJOINGROUP_COMMAND + " set " + group.getId()))
+                                        .withHoverEvent(new HoverEvent.ShowText(Component.literal("Click to automatically connect to the group when joining")))
                                         .applyFormat(ChatFormatting.GREEN);
                             }))
                             .append(" ")
                             .append(ComponentUtils.wrapInSquareBrackets(Component.literal("Copy ID")).withStyle(style -> {
-                                return style.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, group.getId().toString()))
-                                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal("Click to copy group ID")))
+                                return style.withClickEvent(new ClickEvent.CopyToClipboard(group.getId().toString()))
+                                        .withHoverEvent(new HoverEvent.ShowText(Component.literal("Click to copy group ID")))
                                         .applyFormat(ChatFormatting.GREEN);
                             }))
                     , false);

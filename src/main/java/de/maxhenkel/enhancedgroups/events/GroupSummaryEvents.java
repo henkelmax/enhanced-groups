@@ -63,8 +63,8 @@ public class GroupSummaryEvents {
                     ComponentUtils.wrapInSquareBrackets(
                             Component.literal("Join").withStyle(style -> {
                                 return style
-                                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/voicechat join " + group.getId()))
-                                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal("Join group")));
+                                        .withClickEvent(new ClickEvent.RunCommand("/voicechat join " + group.getId()))
+                                        .withHoverEvent(new HoverEvent.ShowText(Component.literal("Join group")));
                             })
                     ).withStyle(ChatFormatting.GREEN)
             );
