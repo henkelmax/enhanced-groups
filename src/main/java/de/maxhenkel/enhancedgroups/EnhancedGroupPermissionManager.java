@@ -107,7 +107,7 @@ public class EnhancedGroupPermissionManager implements PermissionManager<Command
             return switch (this) {
                 case EVERYONE -> true;
                 case NOONE -> false;
-                case OPS -> player != null && player.hasPermissions(player.server.getOperatorUserPermissionLevel());
+                case OPS -> player != null && player.hasPermissions(player.getServer().getOperatorUserPermissionLevel());
             };
         }
 
