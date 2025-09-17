@@ -17,7 +17,7 @@ dependencies {
     modRuntimeOnly "maven.modrinth:simple-voice-chat:fabric-${voicechat_mod_version}"
 
     include(modImplementation("maven.modrinth:admiral:${admiral_version}+fabric"))
-    modImplementation "me.lucko:fabric-permissions-api:${fabric_permission_api_version}"
+    modCompileOnly "me.lucko:fabric-permissions-api:${fabric_permission_api_version}"
 }
 
 processResources {
