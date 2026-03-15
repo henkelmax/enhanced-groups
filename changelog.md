@@ -1,1 +1,1 @@
-- Updated fabric-permissions-api
+- Updated to 26.1

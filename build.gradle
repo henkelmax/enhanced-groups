@@ -1,6 +1,6 @@
 plugins {
     id 'com.gradleup.shadow' version "${shadow_version}"
-    id 'fabric-loom' version "${fabric_loom_version}"
+    id 'net.fabricmc.fabric-loom' version "${fabric_loom_version}"
     id 'mod-update' version "${mod_update_version}"
     id 'de.maxhenkel.cursegradle' version "${cursegradle_version}"
     id 'com.modrinth.minotaur' version "${minotaur_version}"
@@ -14,11 +14,13 @@ repositories {
 
 dependencies {
     implementation "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}"
-    modRuntimeOnly "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}:fabric-stub"
-    modRuntimeOnly "maven.modrinth:simple-voice-chat:fabric-${voicechat_mod_version}"
+    runtimeOnly "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}:fabric-stub"
+    runtimeOnly "maven.modrinth:simple-voice-chat:fabric-${voicechat_mod_version}"
 
-    include(modImplementation("maven.modrinth:admiral:${admiral_version}+fabric"))
-    modCompileOnly "me.lucko:fabric-permissions-api:${fabric_permission_api_version}"
+    //TODO Change once admiral is published
+    //include(implementation("maven.modrinth:admiral:${admiral_version}+fabric"))
+    include(implementation("de.maxhenkel.admiral:admiral-fabric:${admiral_version}"))
+    compileOnly "me.lucko:fabric-permissions-api:${fabric_permission_api_version}"
 }
 
 processResources {

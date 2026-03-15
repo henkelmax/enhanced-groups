@@ -76,9 +76,10 @@ public class EnhancedGroupPermissionManager implements PermissionManager<Command
         }
 
         public boolean hasPermission(@Nullable ServerPlayer player) {
-            if (isFabricPermissionsAPILoaded()) {
+            //TODO Add back fabric-permissions-api
+            /*if (isFabricPermissionsAPILoaded()) {
                 return checkFabricPermission(player);
-            }
+            }*/
             return type.hasPermission(player);
         }
 
@@ -86,7 +87,8 @@ public class EnhancedGroupPermissionManager implements PermissionManager<Command
             if (player == null) {
                 return false;
             }
-            TriState permissionValue = Permissions.getPermissionValue(player, permission);
+            // TODO Change once permissions API has updated
+            TriState permissionValue = TriState.DEFAULT;//Permissions.getPermissionValue(player, permission);
             return switch (permissionValue) {
                 case DEFAULT -> type.hasPermission(player);
                 case TRUE -> true;
