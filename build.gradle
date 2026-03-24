@@ -17,9 +17,7 @@ dependencies {
     runtimeOnly "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}:fabric-stub"
     runtimeOnly "maven.modrinth:simple-voice-chat:fabric-${voicechat_mod_version}"
 
-    //TODO Change once admiral is published
-    //include(implementation("maven.modrinth:admiral:${admiral_version}+fabric"))
-    include(implementation("de.maxhenkel.admiral:admiral-fabric:${admiral_version}"))
+    include(implementation("maven.modrinth:admiral:${admiral_version}+fabric"))
     compileOnly "me.lucko:fabric-permissions-api:${fabric_permission_api_version}"
 }
 
