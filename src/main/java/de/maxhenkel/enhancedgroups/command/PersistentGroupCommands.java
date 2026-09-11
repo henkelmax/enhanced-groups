@@ -6,6 +6,7 @@ import de.maxhenkel.admiral.annotations.Command;
 import de.maxhenkel.admiral.annotations.Name;
 import de.maxhenkel.admiral.annotations.OptionalArgument;
 import de.maxhenkel.admiral.annotations.RequiresPermission;
+import de.maxhenkel.enhancedgroups.EnhancedGroupPermissionManager;
 import de.maxhenkel.enhancedgroups.EnhancedGroups;
 import de.maxhenkel.enhancedgroups.EnhancedGroupsVoicechatPlugin;
 import de.maxhenkel.enhancedgroups.config.PersistentGroup;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequiresPermission("enhancedgroups.persistentgroup")
+@RequiresPermission(EnhancedGroupPermissionManager.PERSISTENT_GROUP_PERMISSION_STRING)
 @Command(PersistentGroupCommands.PERSISTENTGROUP_COMMAND)
 public class PersistentGroupCommands {
 

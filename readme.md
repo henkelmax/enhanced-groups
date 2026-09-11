@@ -107,8 +107,8 @@ The default permission type of each node is defined in the [config](#config-opti
 
 | Permission Node                       | Description                                                                    |
 |---------------------------------------|--------------------------------------------------------------------------------|
-| `enhancedgroups.instantgroup`         | The permission node to be able to execute the `/instantgroup` commands         |
-| `enhancedgroups.persistentgroup`      | The permission node to be able to execute the `/persistentgroup` commands      |
-| `enhancedgroups.autojoingroup`        | The permission node to be able to execute the `/autojoingroup` commands        |
-| `enhancedgroups.autojoingroup.global` | The permission node to be able to execute the `/autojoingroup global` commands |
-| `enhancedgroups.forcejoingroup`       | The permission node to be able to execute the `/forcejoingroup` commands       |
+| `enhancedgroups:instantgroup`         | The permission node to be able to execute the `/instantgroup` commands         |
+| `enhancedgroups:persistentgroup`      | The permission node to be able to execute the `/persistentgroup` commands      |
+| `enhancedgroups:autojoingroup`        | The permission node to be able to execute the `/autojoingroup` commands        |
+| `enhancedgroups:autojoingroup.global` | The permission node to be able to execute the `/autojoingroup global` commands |
+| `enhancedgroups:forcejoingroup`       | The permission node to be able to execute the `/forcejoingroup` commands       |
