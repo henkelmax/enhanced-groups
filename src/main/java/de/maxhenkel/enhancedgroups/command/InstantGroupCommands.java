@@ -3,6 +3,7 @@ package de.maxhenkel.enhancedgroups.command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import de.maxhenkel.admiral.annotations.*;
+import de.maxhenkel.enhancedgroups.EnhancedGroupPermissionManager;
 import de.maxhenkel.enhancedgroups.EnhancedGroups;
 import de.maxhenkel.enhancedgroups.EnhancedGroupsVoicechatPlugin;
 import de.maxhenkel.voicechat.api.Group;
@@ -15,7 +16,7 @@ import net.minecraft.world.phys.AABB;
 import java.util.List;
 import java.util.Optional;
 
-@RequiresPermission("enhancedgroups.instantgroup")
+@RequiresPermission(EnhancedGroupPermissionManager.INSTANT_GROUP_PERMISSION_STRING)
 @Command(InstantGroupCommands.INSTANTGROUP_COMMAND)
 public class InstantGroupCommands {
 

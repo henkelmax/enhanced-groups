@@ -4,6 +4,7 @@ import com.mojang.brigadier.context.CommandContext;
 import de.maxhenkel.admiral.annotations.Command;
 import de.maxhenkel.admiral.annotations.Name;
 import de.maxhenkel.admiral.annotations.RequiresPermission;
+import de.maxhenkel.enhancedgroups.EnhancedGroupPermissionManager;
 import de.maxhenkel.enhancedgroups.EnhancedGroups;
 import de.maxhenkel.enhancedgroups.config.PersistentGroup;
 import net.minecraft.commands.CommandSourceStack;
@@ -11,7 +12,7 @@ import net.minecraft.network.chat.Component;
 
 import java.util.UUID;
 
-@RequiresPermission("enhancedgroups.autojoingroup.global")
+@RequiresPermission(EnhancedGroupPermissionManager.AUTO_JOIN_GROUP_GLOBAL_PERMISSION_STRING)
 @Command({AutoJoinGroupCommands.AUTOJOINGROUP_COMMAND, "global"})
 public class AutoJoinGroupGlobalCommands {
 

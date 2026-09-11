@@ -5,6 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import de.maxhenkel.admiral.annotations.Command;
 import de.maxhenkel.admiral.annotations.Name;
 import de.maxhenkel.admiral.annotations.RequiresPermission;
+import de.maxhenkel.enhancedgroups.EnhancedGroupPermissionManager;
 import de.maxhenkel.enhancedgroups.EnhancedGroupsVoicechatPlugin;
 import de.maxhenkel.voicechat.api.Group;
 import de.maxhenkel.voicechat.api.VoicechatConnection;
@@ -12,7 +13,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
-@RequiresPermission("enhancedgroups.forcejoingroup")
+@RequiresPermission(EnhancedGroupPermissionManager.FORCE_JOIN_GROUP_PERMISSION_STRING)
 @Command(ForceJoinCommands.FORCE_JOIN_COMMAND)
 public class ForceJoinCommands {
 

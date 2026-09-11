@@ -6,6 +6,7 @@ import de.maxhenkel.admiral.annotations.Command;
 import de.maxhenkel.admiral.annotations.Name;
 import de.maxhenkel.admiral.annotations.OptionalArgument;
 import de.maxhenkel.admiral.annotations.RequiresPermission;
+import de.maxhenkel.enhancedgroups.EnhancedGroupPermissionManager;
 import de.maxhenkel.enhancedgroups.EnhancedGroups;
 import de.maxhenkel.enhancedgroups.config.PersistentGroup;
 import net.minecraft.commands.CommandSourceStack;
@@ -15,7 +16,7 @@ import net.minecraft.server.level.ServerPlayer;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-@RequiresPermission("enhancedgroups.autojoingroup")
+@RequiresPermission(EnhancedGroupPermissionManager.AUTO_JOIN_GROUP_PERMISSION_STRING)
 @Command(AutoJoinGroupCommands.AUTOJOINGROUP_COMMAND)
 public class AutoJoinGroupCommands {
 
