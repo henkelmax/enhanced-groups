@@ -1,1 +1,2 @@
+- Switch to `fabric-permission-api-v1`
 - Updated to 26.3
